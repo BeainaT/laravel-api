@@ -55,7 +55,7 @@ class PostController extends Controller
         $newPost = new Post();
         $newPost->fill($data);        
         
-        $slug = Str::of($data['title']);
+        $slug = Str::of($data['title'])->slug('-');
         $count = 1;
 
         while(Post::where('slug', $slug)->first()) {
@@ -115,12 +115,12 @@ class PostController extends Controller
         $data = $request->all();
         $post->fill($data);
         //slug method to fix
-        $slug = Str::of($data['title']);
+        $slug = Str::of($data['title'])->slug('-');
         $count = 1;
 
         if ($post->title != $data['title']) {
             while(Post::where('slug', $slug)->first()) {
-                $slug = Str::of($data['title']) . "/{$count}";
+                $slug = Str::of($data['title']) . "-{$count}";
                 $count++;
             }
             $post->slug = $slug;
