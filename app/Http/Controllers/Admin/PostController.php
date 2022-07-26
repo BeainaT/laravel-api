@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\Category;
 use App\Tag;
@@ -17,7 +18,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $user = Auth::user();
+        $posts = $user->posts;
+
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -61,6 +65,8 @@ class PostController extends Controller
         $newPost->slug = $slug;
 
         $newPost->is_published = isset($data['is_published']);
+
+        $newPost->user_id = Auth::id();
 
         
         $newPost->save();
