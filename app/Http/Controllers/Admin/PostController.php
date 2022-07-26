@@ -67,7 +67,6 @@ class PostController extends Controller
         $newPost->is_published = isset($data['is_published']);
 
         $newPost->user_id = Auth::id();
-
         
         $newPost->save();
         if(isset($data['tags'])) {
@@ -84,6 +83,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        ($post->user_id == Auth::id())?: abort(403);
         return view('admin.posts.show', compact('post'));
     }
 
@@ -95,6 +95,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        ($post->user_id == Auth::id())?: abort(403);
+
         $categories = Category::all();
         $tags = Tag::all();
 
@@ -139,6 +141,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        ($post->user_id == Auth::id())?: abort(403);
         $post->delete();
         return redirect()->route('admin.posts.index');
     }
