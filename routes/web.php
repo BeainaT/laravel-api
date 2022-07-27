@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//back office public
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //back office authentication - public area
 Auth::routes();
